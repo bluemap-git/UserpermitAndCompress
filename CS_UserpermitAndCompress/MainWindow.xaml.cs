@@ -136,6 +136,8 @@ namespace CS_UserpermitAndCompress
 
             //Checksum = CRC32(EncrypredHWID)
             string checksum = Converter.StringToCRC32(tbEncrypredHWID.Text).ToString("X2");
+            while (checksum.Length < 8)
+                checksum = "0" + checksum;
             tbChecksum.Text = checksum;
 
 
