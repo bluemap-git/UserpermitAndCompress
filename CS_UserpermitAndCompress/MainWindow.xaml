@@ -6,23 +6,309 @@
         xmlns:local="clr-namespace:WPF_TEST"
         mc:Ignorable="d"
         Title="CS_UserpermitAndCompress" Height="800" Width="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="100"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-        </Grid.ColumnDefinitions>
-        <Button Content="1. 암호화"
+    <TabControl>
+        <TabItem Header="암호화 / 복호화" Foreground="Red">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="100"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="1. 암호화"
                         Grid.Column="0"
                         Margin="10,10,5,10" Click="Btn_Encrypt_Click"/>
-        <Button Content="2. 복호화"
+                <Button Content="2. 복호화"
                         Grid.Column="1"
                         Margin="5,10,10,10" Click="Btn_Decrypt_Click"/>
-        <Button Content="3. 결과물 확인"
+                <Button Content="3. 결과물 확인"
                         Grid.Row="1" Grid.ColumnSpan="2"
                         Margin="10,0,10,10" Click="Btn_Check_Click"/>
-    </Grid>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Userpermit" >
+            <!--Row1-->
+            <Grid
+            Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+                <Label Content="IV"
+                   Grid.Row="0" Grid.Column="0"
+                   VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                   Margin="5"/>
+                <Label Content="M ID"
+                   ToolTip="M_ID는 SA가 제공하는 ASCII 표현으로 표현된 6자 영숫자 코드다."
+                   Grid.Row="1" Grid.Column="0"
+                   VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                   Margin="5"/>
+                <Label Content="M KEY"
+                   ToolTip="ECDIS 제조업체에서 제공하는 고유 식별 키"
+                   Grid.Row="2" Grid.Column="0"
+                   VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                   Margin="5"/>
+                <Label Content="HW ID" 
+                   Grid.Row="3" Grid.Column="0"
+                   VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                   Margin="5"/>
+                <Label Content="Encrypted HW ID" 
+                   ToolTip="AES(M_Key, M_ID)"
+                   Grid.Row="4" Grid.Column="0"
+                   VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                   Margin="5"/>
+                <Label Content="Checksum" 
+                   ToolTip="Checksum = CRC32(HW_ID)"
+                   Grid.Row="5" Grid.Column="0"
+                   VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                   Margin="5"/>
+                <Label Content="User Permit" 
+                   ToolTip="UserPermit = (Encrypted HW ID + Checksum + M_ID)"
+                   Grid.Row="6" Grid.Column="0"
+                   VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                   Margin="5"/>
+
+                <TextBox Grid.Row="0" Grid.Column="1"
+                     x:Name="tbIV"
+                     Text="00000000000000000000000000000000"
+                     FontFamily="Consolas"
+                     VerticalContentAlignment="Center"/>
+                <TextBox Grid.Row="1" Grid.Column="1"
+                     x:Name="tbMID"
+                     Text="859868"
+                     FontFamily="Consolas"
+                     VerticalContentAlignment="Center"/>
+                <TextBox Grid.Row="2" Grid.Column="1"
+                     x:Name="tbMKEY"
+                     Text="4D5A79677065774A7343705272664F72"
+                     FontFamily="Consolas"
+                     VerticalContentAlignment="Center"/>
+                <TextBox Grid.Row="3" Grid.Column="1"
+                     x:Name="tbHWID"
+                     Text="40384B45B54596201114FE99042201"
+                     FontFamily="Consolas"
+                     VerticalContentAlignment="Center"/>
+                <TextBox Grid.Row="4" Grid.Column="1"
+                     x:Name="tbEncrypredHWID"
+                     IsReadOnly="True"
+                     FontWeight="Bold"
+                     FontSize="13"
+                     FontFamily="Consolas"
+                     Foreground="Blue"
+                     VerticalContentAlignment="Center"/>
+                <TextBox Grid.Row="5" Grid.Column="1"
+                     x:Name="tbChecksum"
+                     IsReadOnly="True"
+                     FontWeight="Bold"
+                     FontSize="13"
+                     FontFamily="Consolas"
+                     Foreground="Blue"
+                     VerticalContentAlignment="Center"/>
+                <TextBox Grid.Row="6" Grid.Column="1"
+                     x:Name="tbUserPermit"
+                     IsReadOnly="False"
+                     FontWeight="Bold"
+                     FontSize="13"
+                     FontFamily="Consolas"
+                     Foreground="Blue"
+                     VerticalContentAlignment="Center"/>
+                <Button 
+                x:Name="btnResult"
+                Grid.Row="4" Grid.Column="2" Grid.RowSpan="3"
+                Width="100"
+                HorizontalAlignment="Left"
+                Content="암호화"
+                Click="btnResult_Click"/>
+
+
+                <!--decryption-->
+                <Label Content="Decryption(Encrypted HW ID)" 
+                   Grid.Row="7" Grid.Column="0"
+                   VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                   Margin="5"/>
+                <Label Content="Decryption(Checksum)" 
+                   Grid.Row="8" Grid.Column="0"
+                   VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                   Margin="5"/>
+                <Label Content="Decryption(M ID)" 
+                   Grid.Row="9" Grid.Column="0"
+                   VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                   Margin="5"/>
+                <Label Content="Decryption(HW ID)" 
+                   Grid.Row="10" Grid.Column="0"
+                   VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                   Margin="5"/>
+
+                <TextBox Grid.Row="7" Grid.Column="1"
+                     x:Name="tbDecryptionEncryptedHWID"
+                     IsReadOnly="True"
+                     FontWeight="Bold"
+                     FontSize="13"
+                     FontFamily="Consolas"
+                     Foreground="Green"
+                     VerticalContentAlignment="Center"/>
+                <TextBox Grid.Row="8" Grid.Column="1"
+                     x:Name="tbDecryptionChecksum"
+                     IsReadOnly="True"
+                     FontWeight="Bold"
+                     FontSize="13"
+                     FontFamily="Consolas"
+                     Foreground="Green"
+                     VerticalContentAlignment="Center"/>
+                <TextBox Grid.Row="9" Grid.Column="1"
+                     x:Name="tbDecryptionM_ID"
+                     IsReadOnly="True"
+                     FontWeight="Bold"
+                     FontSize="13"
+                     FontFamily="Consolas"
+                     Foreground="Green"
+                     VerticalContentAlignment="Center"/>
+                <TextBox Grid.Row="10" Grid.Column="1"
+                     x:Name="tbDecryptionHW_ID"
+                     IsReadOnly="True"
+                     FontWeight="Bold"
+                     FontSize="13"
+                     FontFamily="Consolas"
+                     Foreground="Green"
+                     VerticalContentAlignment="Center"/>
+                <Button 
+                x:Name="btnResultDecryption"
+                Grid.Row="7" Grid.Column="2" Grid.RowSpan="4"
+                Width="100"
+                HorizontalAlignment="Left"
+                Click="btnResultDecryption_Click">
+                    <StackPanel HorizontalAlignment="Center">
+                        <Label Content="UserPermit"/>
+                        <Label Content="복호화 및" HorizontalAlignment="Center"/>
+                        <Label Content="분해" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <Button 
+                x:Name="btnClear"
+                Grid.Row="100" Grid.Column="0" Grid.ColumnSpan="3"
+                Content="지우기"
+                Click="btnClear_Click"/>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Zip, Unzip">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="120"/>
+                    <RowDefinition Height="120"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <GroupBox Header="Zip" Grid.Row="0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Text="폴더 경로(Input)" 
+                                   FontSize="18"
+                                   VerticalAlignment="Center" 
+                                   Margin="0,0,10,0"/>
+                        <TextBox x:Name="tbFolderPath"
+                                 Grid.Column="1"
+                                 IsReadOnly="True"
+                                 VerticalContentAlignment="Center"/>
+                        <Button x:Name="selectFolderPath" 
+                                Grid.Column="2"
+                                Content="…"
+                                Click="selectFolderPath_Click"/>
+                        
+                        <TextBlock Text="저장 경로(Output)" 
+                                   Grid.Row="1"
+                                   FontSize="18"
+                                   VerticalAlignment="Center" 
+                                   Margin="0,0,10,0"/>
+                        <TextBox x:Name="tbSavePath"
+                                 Grid.Row="1" Grid.Column="1"
+                                 IsReadOnly="True"
+                                 VerticalContentAlignment="Center"/>
+                        <Button x:Name="selectSavePath" 
+                                 Grid.Row="1" Grid.Column="2"
+                                Content="…"
+                                Click="selectSavePath_Click"/>
+                        
+                        <Button Grid.Row="2" Grid.ColumnSpan="3" 
+                            x:Name="btnZip" 
+                            Content="Zip" 
+                            Click="btnZip_Click"/>
+                    </Grid>
+                </GroupBox>
+
+                <GroupBox Header="Unzip"  Grid.Row="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Zip 파일(Input)" 
+                                   FontSize="18"
+                                   VerticalAlignment="Center" 
+                                   Margin="0,0,10,0"/>
+                        <TextBox x:Name="tbZipFilePath"
+                                 Grid.Column="1"
+                                 IsReadOnly="True"
+                                 VerticalContentAlignment="Center"/>
+                        <Button x:Name="selectZipFilePath" 
+                                Grid.Column="2"
+                                Content="…"
+                                Click="selectZipFilePath_Click"/>
+
+                        <TextBlock Text="저장 경로(Output)" 
+                                   Grid.Row="1" 
+                                   FontSize="18"
+                                   VerticalAlignment="Center" 
+                                   Margin="0,0,10,0"/>
+                        <TextBox x:Name="tbUnzipFolderPath"
+                                 Grid.Row="1" Grid.Column="1"
+                                 IsReadOnly="True"
+                                 VerticalContentAlignment="Center"/>
+                        <Button x:Name="selectUnzipFolderPath" 
+                                Grid.Row="1" Grid.Column="2"
+                                Content="…"
+                                Click="selectUnzipFolderPath_Click"/>
+                        
+                        <Button Grid.Row="2" Grid.ColumnSpan="3" 
+                                x:Name="btnUnzip" 
+                                Content="Unzip" 
+                                Click="btnUnzip_Click"/>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </TabItem>
+    </TabControl>
 </Window>
