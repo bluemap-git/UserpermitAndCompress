@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CS_UserpermitAndCompress", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProstLib", "ProstLib\ProstLib.csproj", "{7CC1F7DA-D289-4D04-9F20-AD6877ADE24E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProstLib_Standard", "ProstLib_Standard\ProstLib_Standard.csproj", "{D3075D1C-5285-4431-A90B-7BEA6D8043BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,14 @@ Global
 		{7CC1F7DA-D289-4D04-9F20-AD6877ADE24E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7CC1F7DA-D289-4D04-9F20-AD6877ADE24E}.Release|x86.ActiveCfg = Release|x86
 		{7CC1F7DA-D289-4D04-9F20-AD6877ADE24E}.Release|x86.Build.0 = Release|x86
+		{D3075D1C-5285-4431-A90B-7BEA6D8043BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3075D1C-5285-4431-A90B-7BEA6D8043BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3075D1C-5285-4431-A90B-7BEA6D8043BE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D3075D1C-5285-4431-A90B-7BEA6D8043BE}.Debug|x86.Build.0 = Debug|Any CPU
+		{D3075D1C-5285-4431-A90B-7BEA6D8043BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3075D1C-5285-4431-A90B-7BEA6D8043BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3075D1C-5285-4431-A90B-7BEA6D8043BE}.Release|x86.ActiveCfg = Release|Any CPU
+		{D3075D1C-5285-4431-A90B-7BEA6D8043BE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -51,7 +51,7 @@ namespace CS_UserpermitAndCompress
             }
             else
             {
-                ProstLib.Compress.CompressFileToFile(tbFolderPath.Text, tbSavePath.Text);
+                ProstLib_Standard.Compress.CompressFileToFile(tbFolderPath.Text, tbSavePath.Text);
                 MessageBox.Show("압축 완료.");
 
             }
@@ -95,7 +95,7 @@ namespace CS_UserpermitAndCompress
             }
             else
             {
-                ProstLib.Compress.DecompressFileToFile(tbZipFilePath.Text, tbUnzipFolderPath.Text);
+                ProstLib_Standard.Compress.DecompressFileToFile(tbZipFilePath.Text, tbUnzipFolderPath.Text);
                 MessageBox.Show("압축 해제 완료.");
             }
         }
@@ -106,7 +106,7 @@ namespace CS_UserpermitAndCompress
         {
             //InitializationVector
             //byte[] IV = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-            byte[] IV = ProstLib.Converter.HexStringToByteHex(tbIV.Text);
+            byte[] IV = ProstLib_Standard.Converter.HexStringToByteHex(tbIV.Text);
 
 
 
@@ -116,27 +116,27 @@ namespace CS_UserpermitAndCompress
 
             //M_KEY
             //byte[] M_KEY = new byte[] { 0x4D, 0x5A, 0x79, 0x67, 0x70, 0x65, 0x77, 0x4A, 0x73, 0x43, 0x70, 0x52, 0x72, 0x66, 0x4F, 0x72 };
-            byte[] M_KEY = ProstLib.Converter.HexStringToByteHex(tbMKEY.Text);
-            string strM_KEY = ProstLib.Converter.ByteHexToHexString(M_KEY);
+            byte[] M_KEY = ProstLib_Standard.Converter.HexStringToByteHex(tbMKEY.Text);
+            string strM_KEY = ProstLib_Standard.Converter.ByteHexToHexString(M_KEY);
 
 
 
             //HW_ID
             //byte[] HW_ID = new byte[] { 0x40, 0x38, 0x4B, 0x45, 0xB5, 0x45, 0x96, 0x20, 0x11, 0x14, 0xFE, 0x99, 0x04, 0x22, 0x01 };
-            byte[] HW_ID = ProstLib.Converter.HexStringToByteHex(tbHWID.Text);
-            string strHW_ID = ProstLib.Converter.ByteHexToHexString(HW_ID);
+            byte[] HW_ID = ProstLib_Standard.Converter.HexStringToByteHex(tbHWID.Text);
+            string strHW_ID = ProstLib_Standard.Converter.ByteHexToHexString(HW_ID);
 
 
 
             //Encrypred HW ID = Aes(HW_ID, M_KEY, IV)
-            byte[] Encrypred_HW_ID = ProstLib.AES.Encrypt(HW_ID, M_KEY, IV);
-            string encrypredHWID = ProstLib.Converter.ByteHexToHexString(Encrypred_HW_ID);
+            byte[] Encrypred_HW_ID = ProstLib_Standard.AES.Encrypt(HW_ID, M_KEY, IV);
+            string encrypredHWID = ProstLib_Standard.Converter.ByteHexToHexString(Encrypred_HW_ID);
             tbEncrypredHWID.Text = encrypredHWID;
 
 
 
             //Checksum = CRC32(EncrypredHWID)
-            string checksum = ProstLib.Converter.StringToCRC32(tbEncrypredHWID.Text).ToString("X2");
+            string checksum = ProstLib_Standard.Converter.StringToCRC32(tbEncrypredHWID.Text).ToString("X2");
             while (checksum.Length < 8)
                 checksum = "0" + checksum;
             tbChecksum.Text = checksum;
@@ -144,7 +144,7 @@ namespace CS_UserpermitAndCompress
 
 
             //User Permit = EncrypredHWID + Checksum + M_ID
-            tbUserPermit.Text = ProstLib.Converter.GetUserpermit(tbMID.Text, tbMKEY.Text, tbHWID.Text, tbIV.Text); ;
+            tbUserPermit.Text = ProstLib_Standard.Converter.GetUserpermit(tbMID.Text, tbMKEY.Text, tbHWID.Text, tbIV.Text); ;
         }
 
         private void btnResultDecryption_Click(object sender, RoutedEventArgs e)
@@ -162,7 +162,7 @@ namespace CS_UserpermitAndCompress
                 tbDecryptionM_ID.Text = tbUserPermit.Text.Substring(40, 6);
 
                 tbDecryptionHW_ID.Text = string.Empty;
-                foreach (byte c in ProstLib.AES.Decrypt(ProstLib.Converter.HexStringToByteHex(tbDecryptionEncryptedHWID.Text), ProstLib.Converter.HexStringToByteHex(tbMKEY.Text), ProstLib.Converter.HexStringToByteHex(tbIV.Text)))
+                foreach (byte c in ProstLib_Standard.AES.Decrypt(ProstLib_Standard.Converter.HexStringToByteHex(tbDecryptionEncryptedHWID.Text), ProstLib_Standard.Converter.HexStringToByteHex(tbMKEY.Text), ProstLib_Standard.Converter.HexStringToByteHex(tbIV.Text)))
                     tbDecryptionHW_ID.Text += c.ToString("x2").ToUpper();
 
 
@@ -191,14 +191,14 @@ namespace CS_UserpermitAndCompress
 
         private void Btn_Encrypt_Click(object sender, RoutedEventArgs e)
         {
-            ProstLib.CryptographicCompression.Encrypt_Compress_AES128(input_encKey, iv, input_filePath, output_EncryptPath);
+            ProstLib_Standard.CryptographicCompression.Encrypt_Compress_AES128(input_encKey, iv, input_filePath, output_EncryptPath);
             System.Diagnostics.Process.Start(@"..\Encrypt");
         }
 
 
         private void Btn_Decrypt_Click(object sender, RoutedEventArgs e)
         {
-            ProstLib.CryptographicCompression.Decrypt_Decompress_AES128(input_encKey, iv, output_EncryptPath, output_DecryptPath);
+            ProstLib_Standard.CryptographicCompression.Decrypt_Decompress_AES128(input_encKey, iv, output_EncryptPath, output_DecryptPath);
             System.Diagnostics.Process.Start(@"..\Decrypt");
         }
 
