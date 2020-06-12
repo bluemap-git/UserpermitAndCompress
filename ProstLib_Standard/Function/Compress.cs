@@ -1,7 +1,7 @@
 ﻿using System;
 using ICSharpCode.SharpZipLib.Zip;
 
-namespace ProstLib_Standard
+namespace ProstLib
 {
     public class Compress
     {

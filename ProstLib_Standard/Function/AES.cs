@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ProstLib_Standard
+namespace ProstLib
 {
     public class AES
     {

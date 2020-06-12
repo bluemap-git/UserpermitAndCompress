@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CS_UserpermitAndCompress", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProstLib", "ProstLib\ProstLib.csproj", "{7CC1F7DA-D289-4D04-9F20-AD6877ADE24E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProstLib_Standard", "ProstLib_Standard\ProstLib_Standard.csproj", "{D3075D1C-5285-4431-A90B-7BEA6D8043BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProstLib_Standard", "ProstLib_Standard\ProstLib_Standard.csproj", "{D3075D1C-5285-4431-A90B-7BEA6D8043BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

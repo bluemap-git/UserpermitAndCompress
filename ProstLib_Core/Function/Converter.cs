@@ -1,14 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ProstLib_Core
-{
-    class Converter
-    {
-    }
-}
-using System;
 
 namespace ProstLib
 {
