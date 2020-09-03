@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace ProstLib
 {
@@ -56,6 +57,61 @@ namespace ProstLib
             }
 
             return inputText + addText;
+        }
+
+        public static byte[] FillPadding(byte[] input)
+        {  
+            switch (input.Length)
+            //switch (input.Length & 16)
+            {
+                case 1: 
+                    byte[] pad1 = { 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f };
+                    return input.Concat(pad1).ToArray();
+                case 2: 
+                    byte[] pad2 = { 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e };
+                    return input.Concat(pad2).ToArray();
+                case 3: 
+                    byte[] pad3 = { 0x0d, 0x0d, 0x0d, 0x0d, 0x0d, 0x0d, 0x0d, 0x0d, 0x0d, 0x0d, 0x0d, 0x0d, 0x0d };
+                    return input.Concat(pad3).ToArray();
+                case 4: 
+                    byte[] pad4 = { 0x0c, 0x0c, 0x0c, 0x0c, 0x0c, 0x0c, 0x0c, 0x0c, 0x0c, 0x0c, 0x0c, 0x0c };
+                    return input.Concat(pad4).ToArray();
+                case 5: 
+                    byte[] pad5 = { 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b, 0x0b };
+                    return input.Concat(pad5).ToArray();
+                case 6: 
+                    byte[] pad6 = { 0x0a, 0x0a, 0x0a, 0x0a, 0x0a, 0x0a, 0x0a, 0x0a, 0x0a, 0x0a };
+                    return input.Concat(pad6).ToArray();
+                case 7: 
+                    byte[] pad7 = { 0x09, 0x09, 0x09, 0x09, 0x09, 0x09, 0x09, 0x09, 0x09 };
+                    return input.Concat(pad7).ToArray();
+                case 8: 
+                    byte[] pad8 = { 0x08, 0x08, 0x08, 0x08, 0x08, 0x08, 0x08, 0x08 };
+                    return input.Concat(pad8).ToArray();
+                case 9: 
+                    byte[] pad9 = { 0x07, 0x07, 0x07, 0x07, 0x07, 0x07, 0x07 };
+                    return input.Concat(pad9).ToArray();
+                case 10: 
+                    byte[] pad10 = { 0x06, 0x06, 0x06, 0x06, 0x06, 0x06 };
+                    return input.Concat(pad10).ToArray();
+                case 11: 
+                    byte[] pad11 = { 0x05, 0x05, 0x05, 0x05, 0x05 };
+                    return input.Concat(pad11).ToArray();
+                case 12: 
+                    byte[] pad12 = { 0x04, 0x04, 0x04, 0x04 };
+                    return input.Concat(pad12).ToArray();
+                case 13: 
+                    byte[] pad13 = { 0x03, 0x03, 0x03 };
+                    return input.Concat(pad13).ToArray();
+                case 14: 
+                    byte[] pad14 = { 0x02, 0x02 };
+                    return input.Concat(pad14).ToArray();
+                case 15: 
+                    byte[] pad15 = { 0x01};
+                    return input.Concat(pad15).ToArray();
+            }
+
+            return input;
         }
     }
 }

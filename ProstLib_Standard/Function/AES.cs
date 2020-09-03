@@ -54,7 +54,6 @@ namespace ProstLib
             }
 
             return plainText;
-
         }
     }
 }

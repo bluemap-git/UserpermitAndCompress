@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using Microsoft.Win32;
 
@@ -184,22 +186,21 @@ namespace CS_UserpermitAndCompress
         #endregion
 
         string iv = "00000000000000000000000000000000";
-        string input_filePath = @"..\File\101KR003F4N00.000";
-        string input_encKey = "7A933AEB4B";
-        string output_EncryptPath = @"..\Encrypt\101KR003F4N00.000";
-        string output_DecryptPath = @"..\Decrypt\101KR003F4N00.000";
+        string input_filePath = @"..\File\104KR00KR01_20200103F24.h5";
+        string input_encKey = "DB0FFDC650";
+        string output_EncryptPath = @"..\File\104KR00_20200102F24.h5";
+        string output_DecryptPath = @"..\File\104KR00_20200102F24_dec.h5";
 
         private void Btn_Encrypt_Click(object sender, RoutedEventArgs e)
         {
             ProstLib.CryptographicCompression.Encrypt_Compress_AES128(input_encKey, iv, input_filePath, output_EncryptPath);
-            System.Diagnostics.Process.Start(@"..\Encrypt");
+            //System.Diagnostics.Process.Start(@"..\Encrypt");
         }
-
 
         private void Btn_Decrypt_Click(object sender, RoutedEventArgs e)
         {
             ProstLib.CryptographicCompression.Decrypt_Decompress_AES128(input_encKey, iv, output_EncryptPath, output_DecryptPath);
-            System.Diagnostics.Process.Start(@"..\Decrypt");
+            //System.Diagnostics.Process.Start(@"..\Decrypt");
         }
 
         private void Btn_Check_Click(object sender, RoutedEventArgs e)
@@ -218,6 +219,150 @@ namespace CS_UserpermitAndCompress
             }
             fs1.Close();
             fs2.Close();
+        }
+
+        private void Button_Click_TabEncrypt_Encrypt(object sender, RoutedEventArgs e)
+        {
+            var strPlainText = TabEncrypt_PlainText.Text;
+            var strKey = TabEncrypt_Key.Text;
+
+            var bytePlainText = ProstLib.Converter.HexStringToByteHex(strPlainText);
+            var byteKey = ProstLib.Converter.HexStringToByteHex(strKey);
+
+            var paddedKey = ProstLib.Function.FillPadding(byteKey);
+
+            var iv = new byte[16];
+
+            var byteEncryptedText = ProstLib.AES.Encrypt(bytePlainText, paddedKey, iv);
+            var strEncryptedText = ProstLib.Converter.ByteHexToHexString(byteEncryptedText);
+            TabEncrypt_EncryptedText.Text = strEncryptedText;
+        }
+
+        private void Button_Click_TabDecrypt_Decrypt(object sender, RoutedEventArgs e)
+        {
+            var strEncryptedText = TabDecrypt_EncryptedText.Text;
+            var strKey = TabDecrypt_Key.Text;
+
+            var byteEncryptedText = ProstLib.Converter.HexStringToByteHex(strEncryptedText);
+            var byteKey = ProstLib.Converter.HexStringToByteHex(strKey);
+
+            var paddedKey = ProstLib.Function.FillPadding(byteKey);
+
+            var iv = new byte[16];
+
+            var bytePlainText = ProstLib.AES.Decrypt(byteEncryptedText, paddedKey, iv);
+            var strPlainText = ProstLib.Converter.ByteHexToHexString(bytePlainText);
+            TabDecrypt_PlainText.Text = strPlainText;
+        }
+
+        private void Button_Click_TabEncrypt_SelectInputFile(object sender, RoutedEventArgs e)
+        {
+            var dialog = new Microsoft.WindowsAPICodePack.Dialogs.CommonOpenFileDialog();
+
+            if (dialog.ShowDialog() == Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogResult.Ok)
+            {
+                TabEncrypt_InputFilePath.Text = dialog.FileName;
+                var fileName = 
+                    Path.GetFileNameWithoutExtension(dialog.FileName) + 
+                    "_encrypted" + 
+                    Path.GetExtension(dialog.FileName);
+                TabEncrypt_OutputFilePath.Text = Path.Combine(
+                    Path.GetDirectoryName(dialog.FileName),
+                    fileName);
+            }
+        }
+
+        private void Button_Click_TabEncrypt_FileEncrypt(object sender, RoutedEventArgs e)
+        {
+            var inputFilePath = TabEncrypt_InputFilePath.Text;
+            var outputFilePath = TabEncrypt_OutputFilePath.Text;
+            var key = TabEncrypt_FileKey.Text;
+
+            try
+            {
+                if (ProstLib.CryptographicCompression.Encrypt_Compress_AES128(key, iv, inputFilePath, outputFilePath))
+                {
+                    MessageBox.Show("Success");
+                }
+                else
+                {
+                    MessageBox.Show("Fail");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void Button_Click_TabEncrypt_ShowOutputFile(object sender, RoutedEventArgs e)
+        {
+            var outputFilePath = TabEncrypt_OutputFilePath.Text;
+
+            if (File.Exists(outputFilePath))
+            {
+                var arg = "/select, \"" + outputFilePath + "\"";
+                Process.Start("explorer.exe", arg);
+            }
+            else
+            {
+                MessageBox.Show("No output file");
+            }
+        }
+
+        private void Button_Click_TabDecrypt_SelectInputFile(object sender, RoutedEventArgs e)
+        {
+            var dialog = new Microsoft.WindowsAPICodePack.Dialogs.CommonOpenFileDialog();
+
+            if (dialog.ShowDialog() == Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogResult.Ok)
+            {
+                TabDecrypt_InputFilePath.Text = dialog.FileName;
+                var fileName =
+                    Path.GetFileNameWithoutExtension(dialog.FileName) +
+                    "_decrypted" +
+                    Path.GetExtension(dialog.FileName);
+                TabDecrypt_OutputFilePath.Text = Path.Combine(
+                    Path.GetDirectoryName(dialog.FileName),
+                    fileName);
+            }
+        }
+
+        private void Button_Click_TabDecrypt_ShowOutputFile(object sender, RoutedEventArgs e)
+        {
+            var outputFilePath = TabDecrypt_OutputFilePath.Text;
+
+            if (File.Exists(outputFilePath))
+            {
+                var arg = "/select, \"" + outputFilePath + "\"";
+                Process.Start("explorer.exe", arg);
+            }
+            else
+            {
+                MessageBox.Show("No output file");
+            }
+        }
+
+        private void Button_Click_TabDecrypt_FileEncrypt(object sender, RoutedEventArgs e)
+        {
+            var inputFilePath = TabDecrypt_InputFilePath.Text;
+            var outputFilePath = TabDecrypt_OutputFilePath.Text;
+            var key = TabDecrypt_FileKey.Text;
+
+            try
+            {
+                if (ProstLib.CryptographicCompression.Decrypt_Decompress_AES128(key, iv, inputFilePath, outputFilePath))
+                {
+                    MessageBox.Show("Success");
+                }
+                else
+                {
+                    MessageBox.Show("Fail");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
     }
 }

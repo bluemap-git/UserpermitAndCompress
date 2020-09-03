@@ -227,7 +227,7 @@
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="30"/>
                         </Grid.ColumnDefinitions>
-                        
+
                         <TextBlock Text="폴더 경로(Input)" 
                                    FontSize="18"
                                    VerticalAlignment="Center" 
@@ -240,7 +240,7 @@
                                 Grid.Column="2"
                                 Content="…"
                                 Click="selectFolderPath_Click"/>
-                        
+
                         <TextBlock Text="저장 경로(Output)" 
                                    Grid.Row="1"
                                    FontSize="18"
@@ -254,7 +254,7 @@
                                  Grid.Row="1" Grid.Column="2"
                                 Content="…"
                                 Click="selectSavePath_Click"/>
-                        
+
                         <Button Grid.Row="2" Grid.ColumnSpan="3" 
                             x:Name="btnZip" 
                             Content="Zip" 
@@ -301,11 +301,211 @@
                                 Grid.Row="1" Grid.Column="2"
                                 Content="…"
                                 Click="selectUnzipFolderPath_Click"/>
-                        
+
                         <Button Grid.Row="2" Grid.ColumnSpan="3" 
                                 x:Name="btnUnzip" 
                                 Content="Unzip" 
                                 Click="btnUnzip_Click"/>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </TabItem>
+        <TabItem Header="암호화">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <GroupBox Header="Text Encrypt" Margin="10" Grid.Row="0">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Plain Text" 
+                           Grid.Row="0"
+                           Grid.Column="0"
+                           FontSize="18"
+                           VerticalAlignment="Center" 
+                           Margin="0,0,10,0"/>
+                        <TextBox x:Name="TabEncrypt_PlainText"
+                         Grid.Row="0"
+                         Grid.Column="1"
+                         VerticalContentAlignment="Center"/>
+                        <TextBlock Text="Key" 
+                           Grid.Row="1"
+                           Grid.Column="0"
+                           FontSize="18"
+                           VerticalAlignment="Center" 
+                           Margin="0,0,10,0"/>
+                        <TextBox x:Name="TabEncrypt_Key"
+                         Grid.Row="1"
+                         Grid.Column="1"
+                         VerticalContentAlignment="Center"/>
+                        <Button Grid.Row="2"
+                        Grid.Column="0"
+                        Content="Encrypt" Click="Button_Click_TabEncrypt_Encrypt"></Button>
+                        <TextBox x:Name="TabEncrypt_EncryptedText"
+                         Grid.Row="2"
+                         Grid.Column="1"
+                         VerticalContentAlignment="Center"/>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="File Encrypt" Margin="10" Grid.Row="1">
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="5*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Column="0" Grid.Row="0"
+                               Text="Input File" 
+                               FontSize="18"
+                               VerticalAlignment="Center" 
+                               Margin="0,0,10,0"/>
+                        <TextBox x:Name="TabEncrypt_InputFilePath"
+                                 Grid.Column="1"  Grid.Row="0"
+                                 IsReadOnly="True"
+                                 VerticalContentAlignment="Center"/>
+                        <Button Grid.Column="2"  Grid.Row="0"
+                                Content="…"
+                                Click="Button_Click_TabEncrypt_SelectInputFile"/>
+                        <TextBlock Grid.Column="0" Grid.Row="1"
+                               Text="Output File" 
+                               FontSize="18"
+                               VerticalAlignment="Center" 
+                               Margin="0,0,10,0"/>
+                        <TextBox x:Name="TabEncrypt_OutputFilePath"
+                                 Grid.Column="1"  Grid.Row="1" Grid.ColumnSpan="2"
+                                 IsReadOnly="True"
+                                 VerticalContentAlignment="Center"
+                                 TextWrapping="Wrap"/>
+                        <Button Grid.Column="2"  Grid.Row="1"
+                                Content="Show in explorer"
+                                Click="Button_Click_TabEncrypt_ShowOutputFile"/>
+                        <TextBlock Text="Key" 
+                                   Grid.Row="2"
+                                   Grid.Column="0"
+                                   FontSize="18"
+                                   VerticalAlignment="Center" 
+                                   Margin="0,0,10,0"/>
+                        <TextBox x:Name="TabEncrypt_FileKey"
+                                 Grid.Row="2"
+                                 Grid.Column="1"
+                                 VerticalContentAlignment="Center"/>
+                        <Button Grid.Column="2"  Grid.Row="2"
+                                Content="Encrypt"
+                                Click="Button_Click_TabEncrypt_FileEncrypt"/>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </TabItem>
+        <TabItem Header="복호화">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <GroupBox Header="Text Decrypt" Margin="10" Grid.Row="0">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Encrypted Text" 
+                           Grid.Row="0"
+                           Grid.Column="0"
+                           FontSize="18"
+                           VerticalAlignment="Center" 
+                           Margin="0,0,10,0"/>
+                        <TextBox x:Name="TabDecrypt_EncryptedText"
+                         Grid.Row="0"
+                         Grid.Column="1"
+                         VerticalContentAlignment="Center"/>
+                        <TextBlock Text="Key" 
+                           Grid.Row="1"
+                           Grid.Column="0"
+                           FontSize="18"
+                           VerticalAlignment="Center" 
+                           Margin="0,0,10,0"/>
+                        <TextBox x:Name="TabDecrypt_Key"
+                         Grid.Row="1"
+                         Grid.Column="1"
+                         VerticalContentAlignment="Center"/>
+                        <Button Grid.Row="2"
+                        Grid.Column="0"
+                        Content="Encrypt" Click="Button_Click_TabDecrypt_Decrypt"></Button>
+                        <TextBox x:Name="TabDecrypt_PlainText"
+                         Grid.Row="2"
+                         Grid.Column="1"
+                         VerticalContentAlignment="Center"/>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="File Decrypt" Margin="10" Grid.Row="1">
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="5*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Column="0" Grid.Row="0"
+                               Text="Input File" 
+                               FontSize="18"
+                               VerticalAlignment="Center" 
+                               Margin="0,0,10,0"/>
+                        <TextBox x:Name="TabDecrypt_InputFilePath"
+                                 Grid.Column="1"  Grid.Row="0"
+                                 IsReadOnly="True"
+                                 VerticalContentAlignment="Center"/>
+                        <Button Grid.Column="2"  Grid.Row="0"
+                                Content="…"
+                                Click="Button_Click_TabDecrypt_SelectInputFile"/>
+                        <TextBlock Grid.Column="0" Grid.Row="1"
+                               Text="Output File" 
+                               FontSize="18"
+                               VerticalAlignment="Center" 
+                               Margin="0,0,10,0"/>
+                        <TextBox x:Name="TabDecrypt_OutputFilePath"
+                                 Grid.Column="1"  Grid.Row="1" Grid.ColumnSpan="2"
+                                 IsReadOnly="True"
+                                 VerticalContentAlignment="Center"
+                                 TextWrapping="Wrap"/>
+                        <Button Grid.Column="2"  Grid.Row="1"
+                                Content="Show in explorer"
+                                Click="Button_Click_TabDecrypt_ShowOutputFile"/>
+                        <TextBlock Text="Key" 
+                                   Grid.Row="2"
+                                   Grid.Column="0"
+                                   FontSize="18"
+                                   VerticalAlignment="Center" 
+                                   Margin="0,0,10,0"/>
+                        <TextBox x:Name="TabDecrypt_FileKey"
+                                 Grid.Row="2"
+                                 Grid.Column="1"
+                                 VerticalContentAlignment="Center"/>
+                        <Button Grid.Column="2"  Grid.Row="2"
+                                Content="Encrypt"
+                                Click="Button_Click_TabDecrypt_FileEncrypt"/>
                     </Grid>
                 </GroupBox>
             </Grid>

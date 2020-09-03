@@ -22,7 +22,7 @@ namespace ProstLib
                 // 4. 파일 저장
                 System.IO.File.WriteAllBytes(output_filePath, bytes);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return false;
             }
@@ -45,8 +45,9 @@ namespace ProstLib
                 // 4. 파일 저장
                 System.IO.File.WriteAllBytes(output_filePath, bytes);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e.ToString());
                 return false;
             }
             return true;
