@@ -14,7 +14,9 @@ namespace ProstLib
         public static byte[] CompressByteToByte(byte[] sourceByteArray)
         {
             string guid = Guid.NewGuid().ToString();
+
             System.IO.MemoryStream targetMemoryStream = new System.IO.MemoryStream();
+
             ZipOutputStream zipOutputStream = new ZipOutputStream(targetMemoryStream);
             zipOutputStream.SetLevel(9);
             zipOutputStream.SetComment(guid);
@@ -83,6 +85,7 @@ namespace ProstLib
         {
             System.IO.DirectoryInfo sourceDirectoryInfo = new System.IO.DirectoryInfo(sourceDirectoryPath);
             System.IO.FileStream targetFileStream = new System.IO.FileStream(targetFilePath, System.IO.FileMode.Create);
+
             ZipOutputStream zipOutputStream = new ZipOutputStream(targetFileStream);
             zipOutputStream.SetComment(sourceDirectoryPath);
             zipOutputStream.SetLevel(9);
