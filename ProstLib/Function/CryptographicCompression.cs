@@ -49,6 +49,9 @@ namespace ProstLib
 
                 // 4. 압축해제 / 파일 저장
                 Compress.DecompressFileToFile(FileName, output_FolderPath);
+
+                // 5. 임시 파일 제거
+                System.IO.File.Delete(FileName);
             }
             catch (Exception ex)
             {
