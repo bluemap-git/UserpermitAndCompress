@@ -36,7 +36,7 @@ namespace ProstLib
             //String To HEX
             string strEncrypred_HW_ID = Converter.ByteHexToHexString(Encrypred_HW_ID);
             //Checksum = CRC32(EncrypredHWID)
-            string checksum = StringToCRC32(strEncrypred_HW_ID).ToString("X2");
+            string checksum = StringToCRC32(strEncrypred_HW_ID).ToString("X8");
 
             return strEncrypred_HW_ID + checksum + mid;
         }
