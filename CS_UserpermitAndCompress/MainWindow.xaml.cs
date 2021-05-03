@@ -53,7 +53,7 @@ namespace CS_UserpermitAndCompress
             }
             else
             {
-                ProstLib.Compress.CompressFileToFile(tbFolderPath.Text, tbSavePath.Text);
+                ProstLib.Compress.CompressFilesToFile(new string[] { tbFolderPath.Text }, tbSavePath.Text);
                 MessageBox.Show("압축 완료.");
 
             }
@@ -186,21 +186,21 @@ namespace CS_UserpermitAndCompress
         #endregion
 
         string iv = "00000000000000000000000000000000";
-        string input_filePath = @"..\File\104KR00KR01_20200103F24.h5";
+        string input_filePath = @"..\File\101KR005G3E12.000";
         string input_encKey = "DB0FFDC650";
-        string output_EncryptPath = @"..\File\104KR00_20200102F24.h5";
-        string output_DecryptPath = @"..\File\104KR00_20200102F24_dec.h5";
+        string output_EncryptPath = @"..\Encrypt\101KR005G3E12.000";
+        string output_DecryptPath = @"..\Decrypt";
 
         private void Btn_Encrypt_Click(object sender, RoutedEventArgs e)
         {
             ProstLib.CryptographicCompression.Encrypt_Compress_AES128(input_encKey, iv, input_filePath, output_EncryptPath);
-            //System.Diagnostics.Process.Start(@"..\Encrypt");
+            System.Diagnostics.Process.Start(@"..\Encrypt");
         }
 
         private void Btn_Decrypt_Click(object sender, RoutedEventArgs e)
         {
             ProstLib.CryptographicCompression.Decrypt_Decompress_AES128(input_encKey, iv, output_EncryptPath, output_DecryptPath);
-            //System.Diagnostics.Process.Start(@"..\Decrypt");
+            System.Diagnostics.Process.Start(@"..\Decrypt");
         }
 
         private void Btn_Check_Click(object sender, RoutedEventArgs e)
