@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_TEST"
         mc:Ignorable="d"
-        Title="CS_UserpermitAndCompress" Height="800" Width="800">
+        Title="CS_UserpermitAndCompress" Height="800" Width="850">
     <TabControl>
         <TabItem Header="암호화 / 복호화" Foreground="Red">
             <Grid>
@@ -481,7 +481,7 @@
                                 Content="…"
                                 Click="Button_Click_TabDecrypt_SelectInputFile"/>
                         <TextBlock Grid.Column="0" Grid.Row="1"
-                               Text="Output File" 
+                               Text="Output Path" 
                                FontSize="18"
                                VerticalAlignment="Center" 
                                Margin="0,0,10,0"/>

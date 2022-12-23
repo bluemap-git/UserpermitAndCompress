@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO.Compression;
 using ICSharpCode.SharpZipLib.Zip;
 
 namespace ProstLib
@@ -56,7 +57,9 @@ namespace ProstLib
             foreach (string filePath in sourceFilePath)
             {
                 System.IO.FileInfo sourceFileInfo = new System.IO.FileInfo(filePath);
-                string sourceFileName = sourceFileInfo.FullName.Substring(filePath.Length + 1);
+                //string sourceFileName = sourceFileInfo.FullName.Substring(filePath.Length + 1);
+                string sourceFileName = sourceFileInfo.Name;
+                //string sourceFileName = filePath;
                 zipOutputStream.PutNextEntry(new ZipEntry(sourceFileName));
                 using (System.IO.FileStream sourceFileStream = sourceFileInfo.OpenRead())
                 {
