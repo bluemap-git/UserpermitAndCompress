@@ -93,7 +93,8 @@ namespace ProstLib
 
             for (int count = 0; count < strHex.Length; count += 2)
             {
-                bytes[count / 2] = System.Convert.ToByte(strHex.Substring(count, 2), 16);
+                var substring = strHex.Substring(count, 2);
+                bytes[count / 2] = System.Convert.ToByte(substring, 16);
             }
             return bytes;
         }

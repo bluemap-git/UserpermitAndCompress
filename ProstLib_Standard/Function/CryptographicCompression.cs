@@ -44,7 +44,8 @@ namespace ProstLib
                 byte[] bytes = System.IO.File.ReadAllBytes(input_filePath);
 
                 // 2. 복호화
-                bytes = AES.Decrypt(bytes, Converter.HexStringToByteHex(Function.FillPadding(key)), Converter.HexStringToByteHex(iv));
+                var paddedKey = Function.FillPadding(key);
+                bytes = AES.Decrypt(bytes, Converter.HexStringToByteHex(paddedKey), Converter.HexStringToByteHex(iv));
 
                 // 3. Bytes -> 파일 변환
                 string FileName = System.AppDomain.CurrentDomain.BaseDirectory + (new System.IO.FileInfo(input_filePath)).Name;
