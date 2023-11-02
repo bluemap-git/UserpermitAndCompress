@@ -11,7 +11,6 @@ namespace ProstLib
         {
             try
             {
-
                 // 1. 압축
                 string FileName = System.AppDomain.CurrentDomain.BaseDirectory + (new System.IO.FileInfo(input_filePath)).Name;
                 Compress.CompressFilesToFile(new string[] { input_filePath }, FileName);
