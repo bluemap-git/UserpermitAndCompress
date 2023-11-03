@@ -14,7 +14,8 @@ namespace PerformanceTester
     {
         static void Main(string[] args)
         {
-            GenerateKeyPair();   
+            //GenerateKeyPair();   
+            EncryptDecrypt2();
         }
 
         static void GenerateKeyPair()
@@ -121,6 +122,44 @@ namespace PerformanceTester
             }
             stopwatch.Stop();
             Console.WriteLine("복호화 평균 성능: {0} μs", (stopwatch.Elapsed.TotalMilliseconds / 10.0) * 1000);
+        }
+
+        static void EncryptDecrypt2()
+        {
+            string iv = "00000000000000000000000000000000";
+            string key = "DB0FFDC650";
+
+            string inputFilePath = "..\\File\\125SG0020230420_110804453.gml";
+            string outputFilePath = "..\\File\\125SG0020230420_110804453_encrypted.gml";
+
+            byte[] bytes = System.IO.File.ReadAllBytes(inputFilePath);
+
+            byte[] cypherText = null;
+            byte[] plainText = null;
+
+            var stopwatch = new Stopwatch();
+
+            Console.WriteLine("암호화 성능 측척(10회)");
+            for (int i = 0; i < 10; i++)
+            {
+                stopwatch.Restart();
+                cypherText = ProstLib.AES.Encrypt(bytes, ProstLib.Converter.HexStringToByteHex(ProstLib.Function.FillPadding(key)), ProstLib.Converter.HexStringToByteHex(iv));
+                stopwatch.Stop();
+                Console.WriteLine("암호화 성능: {0} μs", stopwatch.Elapsed.TotalMilliseconds * 1000);
+            }
+
+            File.WriteAllBytes(outputFilePath, cypherText);
+
+            Console.WriteLine("\n\n\n");
+            Console.WriteLine("복호화 성능 측척(10회)");
+
+            for (int i = 0; i < 10; i++)
+            {
+                stopwatch.Restart();
+                plainText = ProstLib.AES.Decrypt(cypherText, ProstLib.Converter.HexStringToByteHex(ProstLib.Function.FillPadding(key)), ProstLib.Converter.HexStringToByteHex(iv));
+                stopwatch.Stop();
+                Console.WriteLine("복호화 성능: {0} μs", stopwatch.Elapsed.TotalMilliseconds * 1000);
+            }
         }
     }
 }
